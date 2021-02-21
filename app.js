@@ -11,7 +11,7 @@ let sliders = [];
 // If this key doesn't work
 // Find the name in the url and go to their website
 // to create your own api key
-const KEY = '15674931-a9d714b6e9d654524df198e00&q';   
+const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 
 // show images 
 const showImages = (images) => {
@@ -37,14 +37,13 @@ const getImages = (query) => {
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
-  console.log("i have clicked");
   let element = event.target;
   element.classList.add('added');
 
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
-  } else{
+  } else {
     element.classList.remove('added');
     sliders.splice(item, 1);// alert('Hey, Already added !')
   }
@@ -78,6 +77,23 @@ const createSlider = () => {
     alt="">`;
     sliderContainer.appendChild(item)
   })
+
+  //all slider showing container (first extra feature added)
+  const allSliderContainer = document.getElementById('all-slider-container');
+  var allSliderContainerDiv = document.createElement('div');
+  allSliderContainerDiv.className = 'all-slider-container-div'
+  allSliderContainerDiv.innerHTML = '';
+  for (let i = 0; i < sliders.length; i++) {
+    const sliderImage = sliders[i];
+    const sliderContainerDiv = document.createElement('div');
+    sliderContainerDiv.innerHTML = `
+      <img src="${sliderImage}">
+  `
+    allSliderContainerDiv.appendChild(sliderContainerDiv);
+  }
+  allSliderContainer.appendChild(allSliderContainerDiv);
+  //.............
+
   changeSlide(0)
   timer = setInterval(function () {
     slideIndex++;
@@ -112,7 +128,7 @@ const changeSlide = (index) => {
 }
 
 //common function
-const searchImage = () =>{
+const searchImage = () => {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search');
@@ -133,3 +149,21 @@ search.addEventListener('keyup', (e) => {
 sliderBtn.addEventListener('click', function () {
   createSlider()
 })
+
+// button feature(second feature added)
+
+const hideCollection = document.getElementById('Hide-collection');
+hideCollection.addEventListener('click', () => {
+  const hideCollection = document.getElementById('Hide-collection');
+  const allSliderContainer = document.getElementById('all-slider-container');
+
+  if (hideCollection.innerText === 'Hide collection') {
+    allSliderContainer.style.display = 'none';
+    hideCollection.innerText = 'Display collection';
+  }
+  else if (hideCollection.innerText === 'Display collection') {
+      allSliderContainer.style.display = 'block';
+      hideCollection.innerText = 'Hide collection';
+  }
+}
+)
