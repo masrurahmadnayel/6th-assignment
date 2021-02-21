@@ -31,7 +31,7 @@ const showImages = (images) => {
 const getImages = (query) => {
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
-    .then(data => showImages(data.hits))
+    .then(data => showImages(data.hits)) //problem one was in this line 'data.hitS' changed to 'data.hits'
     .catch(err => console.log(err))
 }
 
@@ -39,7 +39,7 @@ let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
   element.classList.add('added');
- 
+
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
@@ -80,7 +80,7 @@ const createSlider = () => {
   timer = setInterval(function () {
     slideIndex++;
     changeSlide(slideIndex);
-  }, duration);
+  }, Math.abs(duration));  //problem three has been solved in this line
 }
 
 // change slider index 
@@ -109,13 +109,24 @@ const changeSlide = (index) => {
   items[index].style.display = "block"
 }
 
-searchBtn.addEventListener('click', function () {
+//common function
+const searchImage = () =>{
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search');
   getImages(search.value)
   sliders.length = 0;
+}
+searchBtn.addEventListener('click', searchImage)
+
+//new code added
+const search = document.getElementById('search');
+search.addEventListener('keyup', (e) => {
+  if (e.keyCode === 13) {
+    searchImage();
+  }
 })
+//..........
 
 sliderBtn.addEventListener('click', function () {
   createSlider()
